@@ -9,7 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: self-hosted
     steps:
-      # Langkah 1: Checkout Repository
+      # Langkah 1: Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -22,11 +22,11 @@ jobs:
       # Langkah 3: Build Flutter Web
       - name: Build Flutter Web
         run: |
-          flutter clean
-          flutter pub get
-          flutter build web --release
+          C:\flutter\bin\flutter clean
+          C:\flutter\bin\flutter pub get
+          C:\flutter\bin\flutter build web --release
 
-      # Langkah 4: Salin Build ke Folder Target (Opsional)
+      # Langkah 4: Deploy ke IIS
       - name: Deploy to IIS
         run: |
           xcopy /s /e /y "${{ github.workspace }}\build\web\*" "C:\inetpub\wwwroot\Crud-Testing"
