@@ -3,7 +3,7 @@ name: "Build and Deploy Flutter Web - Self Hosted"
 on:
   push:
     branches:
-      - master  # Workflow ini akan dijalankan setiap kali ada push ke branch master
+      - main  # Workflow ini akan dijalankan setiap kali ada push ke branch master
 
 jobs:
   build-and-deploy:
