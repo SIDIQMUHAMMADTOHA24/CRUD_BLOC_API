@@ -1,0 +1,48 @@
+name: "Build and Deploy Flutter Web - Self Hosted"
+
+on:
+  push:
+    branches:
+      - master  # Workflow ini akan dijalankan setiap kali ada push ke branch master
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      # Langkah 1: Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Langkah 2: Instalasi Flutter
+      - name: Install Flutter
+        run: |
+          # Pastikan Flutter sudah diinstal di runner Anda, atau tambahkan path ke Flutter
+          git clone https://github.com/flutter/flutter.git C:\flutter
+          C:\flutter\bin\flutter --version
+          echo "Flutter installed successfully"
+
+      # Langkah 3: Set environment variable untuk Flutter
+      - name: Set Flutter Path
+        run: |
+          $env:Path += ";C:\flutter\bin"
+
+      # Langkah 4: Jalankan Flutter pub get
+      - name: Run Flutter Pub Get
+        run: |
+          flutter pub get
+
+      # Langkah 5: Build Flutter Web
+      - name: Build Flutter for Web
+        run: |
+          flutter build web
+
+      # Langkah 6: Hapus file yang tidak dilacak di direktori tujuan
+      - name: Remove Untracked Files
+        run: |
+          cd C:\inetpub\wwwroot\Crud-Testing
+          git clean -f
+
+      # Langkah 7: Salin hasil build ke direktori tujuan
+      - name: Deploy to IIS
+        run: |
+          robocopy .\build\web C:\inetpub\wwwroot\Crud-Testing /MIR
