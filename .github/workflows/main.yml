@@ -3,7 +3,7 @@ name: "Build and Deploy - Flutter Web"
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
@@ -13,14 +13,20 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Langkah 2: Build Flutter Web
+      # Langkah 2: Tambahkan Flutter ke PATH
+      - name: Add Flutter to PATH
+        run: |
+          $env:PATH += ";C:\flutter\bin"
+          flutter doctor
+
+      # Langkah 3: Build Flutter Web
       - name: Build Flutter Web
         run: |
           flutter clean
           flutter pub get
           flutter build web --release
 
-      # Langkah 3: Deploy ke IIS
+      # Langkah 4: Deploy ke IIS
       - name: Deploy to IIS
         run: |
           cd C:\inetpub\wwwroot\Crud-Testing
